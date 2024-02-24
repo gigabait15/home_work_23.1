@@ -1,188 +1,92 @@
 {% load static %}
-
 <!doctype html>
-<html lang="en" data-bs-theme="auto">
+<html lang="en">
 <head>
-    <script src="{% static 'js/color-modes.js' %}"></script>
-
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.122.0">
-    <title>HOME</title>
+    <meta name="author" content="">
 
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" crossorigin="anonymous">
+    <title>{{ title }}</title>
 
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
+    <link href="{% static 'css/album.css' %}" rel="stylesheet">
 </head>
+
 <body>
 
-<div class="container py-3">
-    <header>
-        {% include 'catalog/includes/inc_menu.html' %}
-
-        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-            <h1 class="display-4 fw-normal text-body-emphasis">Pricing</h1>
-            <p class="fs-5 text-body-secondary">Quickly build an effective pricing table for your potential customers
-                with this Bootstrap example. It’s built with default Bootstrap components and utilities with little
-                customization.</p>
-        </div>
-    </header>
-
-    <main>
-        {% block content %}
-        {% endblock %}
-
-        <h2 class="display-6 text-center mb-4">Compare plans</h2>
-
-        <div class="table-responsive">
-            <table class="table text-center">
-                <thead>
-                <tr>
-                    <th style="width: 34%;"></th>
-                    <th style="width: 22%;">Free</th>
-                    <th style="width: 22%;">Pro</th>
-                    <th style="width: 22%;">Enterprise</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row" class="text-start">Public</th>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">Private</th>
-                    <td></td>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                </tr>
-                </tbody>
-
-                <tbody>
-                <tr>
-                    <th scope="row" class="text-start">Permissions</th>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">Sharing</th>
-                    <td></td>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">Unlimited members</th>
-                    <td></td>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-start">Extra security</th>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <svg class="bi" width="24" height="24">
-                            <use xlink:href="#check"/>
-                        </svg>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
-
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="row">
-            <div class="col-12 col-md">
-                <small class="d-block mb-3 text-body-secondary">&copy; 2017–2024</small>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Features</h5>
-                <ul class="list-unstyled text-small">
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Cool stuff</a></li>
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Random feature</a></li>
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Stuff for developers</a>
-                    </li>
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Another one</a></li>
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Last time</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Resources</h5>
-                <ul class="list-unstyled text-small">
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource</a></li>
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource name</a></li>
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Another resource</a></li>
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>About</h5>
-                <ul class="list-unstyled text-small">
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team</a></li>
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
-                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
-                </ul>
+<header>
+    <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                    <h4 class="text-white">Какая-то информация</h4>
+                    <p class="text-muted">какое-то описание.</p>
+                </div>
+                {% include 'catalog/includes/inc_menu.html' %}
             </div>
         </div>
-    </footer>
-</div>
-<script src="{% static 'js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+    </div>
+    <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+                <strong>Album</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>
 
+<main role="main">
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">{{ title }}</h1>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="row">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<footer class="text-muted">
+    <div class="container">
+        <p class="float-right">
+            <a href="#">Back to top</a>
+        </p>
+        <p> &copy; {% now 'Y' %}</p>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/holder.min.js' %}"></script>
 </body>
 </html>
