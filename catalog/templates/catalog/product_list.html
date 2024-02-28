@@ -23,9 +23,9 @@
                 <div class="btn-group">
                     <a href="{% url 'catalog:product_detail' product.pk %}"
                        class="btn btn-sm btn-secondary mr-1">Информация</a>
-                    <a href="№" type="button"
+                    <a href="{% url 'catalog:product_update' product.pk %}" type="button"
                        class="btn btn-sm btn-success mr-1">Редактировать</a>
-                    <a href="#" type="button"
+                    <a href="{% url 'catalog:product_delete' product.pk %}" type="button"
                        class="btn btn-sm btn-danger">Удалить</a>
                 </div>
             </div>
