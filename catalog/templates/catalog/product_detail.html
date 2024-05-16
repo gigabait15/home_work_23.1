@@ -34,6 +34,34 @@
                 </div>
             </div>
         </div>
+        <div class="col-6">
+             <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        Информация
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        {% if current_version %}
+                        <tr>
+                            <th>Название</th>
+                            <td>{{current_version.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>номер версии</th>
+                            <td>{{current_version.number_version}} </td>
+                        </tr>
+                        {% else %}
+                            <p>Текущая версия продукта не найдена</p>
+                        {% endif %}
+                    </table>
+
+                </div>
+                <div class="card-footer">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
