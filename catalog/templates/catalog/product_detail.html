@@ -8,6 +8,7 @@
                     <h3 class="card-title">
                         Информация
                     </h3>
+                    <h6>Текущий пользователь: {{ request.user }}</h6>
                 </div>
                 <div class="card-body">
                     <table class="table">
@@ -25,6 +26,10 @@
                                 {{ product.description|slice:":100"|safe }}
                                 {% if product.description|length > 100 %}...{% endif %}
                             </td>
+                        </tr>
+                        <tr>
+                            <th>пользователь</th>
+                            <td>{{product.user }}</td>
                         </tr>
                     </table>
                 </div>
@@ -56,7 +61,6 @@
                             <p>Текущая версия продукта не найдена</p>
                         {% endif %}
                     </table>
-
                 </div>
                 <div class="card-footer">
                 </div>

@@ -1,10 +1,10 @@
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.forms import inlineformset_factory
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from pytils.translit import slugify
-
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Version
 
@@ -13,7 +13,7 @@ class ProductListView(ListView):
     model = Product
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
     form_class = ProductForm
@@ -27,15 +27,23 @@ class ProductDetailView(DetailView):
         return context
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home')
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     form_class = ProductForm
+
+    def test_func(self):
+        obj = self.get_object()
+        return self.request.user == obj.user or self.request.user.is_staff
+
+    def handle_no_permission(self):
+        messages.error(self.request, "У вас нет прав для выполнения этого действия.")
+        return redirect('catalog:home')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -58,9 +66,17 @@ class ProductUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:home')
+
+    def test_func(self):
+        obj = self.get_object()
+        return self.request.user == obj.user
+
+    def handle_no_permission(self):
+        messages.error(self.request, "У вас нет прав для выполнения этого действия.")
+        return redirect('catalog:home')
 
 
 class ContactView(View):

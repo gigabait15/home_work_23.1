@@ -1,9 +1,10 @@
 {% extends 'catalog/base.html' %}
 {% block content %}
 <div class="col-12">
- <a class="btn btn-success" href="{% url 'catalog:product_create' %}" style="margin-bottom: 30px;">
-     Добавить новый продукт
- </a>
+    {% if user.is_authenticated %}
+    <a class="btn btn-success" href="{% url 'catalog:product_create' %}" style="margin-bottom: 30px;">
+        Добавить новый продукт</a>
+    {% endif %}
 </div>
 {% for product in product_list %}
 <div class="col-4">
@@ -13,13 +14,14 @@
         </h1>
         <div class="card-body text-center">
             {% if product.image %}
-                <img src="{{ product.image.url }}" style="max-width: 50%; max-height: 100%;">
+            <img src="{{ product.image.url }}" style="max-width: 50%; max-height: 100%;">
             {% else %}
-                <p>Нет изображения</p>
+            <p>Нет изображения</p>
             {% endif %}
         </div>
         <div class="card-footer">
-             <div class="d-flex justify-content-center  align-items-center">
+            <div class="d-flex justify-content-center  align-items-center">
+                {% if user.is_authenticated %}
                 <div class="btn-group">
                     <a href="{% url 'catalog:product_detail' product.pk %}"
                        class="btn btn-sm btn-secondary mr-1">Информация</a>
@@ -28,6 +30,8 @@
                     <a href="{% url 'catalog:product_delete' product.pk %}" type="button"
                        class="btn btn-sm btn-danger">Удалить</a>
                 </div>
+                {% endif %}
+
             </div>
         </div>
     </div>
