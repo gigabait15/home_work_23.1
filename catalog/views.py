@@ -1,7 +1,7 @@
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
-from django.http import HttpResponseRedirect
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -55,8 +55,11 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     template_name = 'catalog/product_form.html'
     permission_required = ('catalog.can_change_product_description', 'catalog.can_change_product_category')
 
-    def get_permission_denied_message(self):
-        return "У вас нет прав для редактирования этого продукта."
+    def has_permission(self):
+        """Проверка на суперпользователя или автора публикации """
+        if self.request.user.is_superuser or self.request.user == self.request.user:
+            return True
+        return super().has_permission()
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -78,6 +81,7 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 
     def get_success_url(self):
         return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
+
 
 class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
