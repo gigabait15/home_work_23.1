@@ -1,12 +1,28 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.forms import inlineformset_factory
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Version
+
+
+class ProductUnpublishView(View):
+    def post(self, request, pk):
+        product = get_object_or_404(Product, pk=pk)
+        product.is_published = False
+        product.save()
+        return redirect(reverse('catalog:home'))
+
+class ProductPublishView(View):
+    def post(self, request, pk):
+        product = get_object_or_404(Product, pk=pk)
+        product.is_published = True
+        product.save()
+        return redirect(reverse('catalog:home'))
 
 
 class ProductListView(ListView):
@@ -33,17 +49,14 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('catalog:home')
 
 
-class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    permission_required = ('catalog.can_change_product_description', 'catalog.can_change_product_category')
 
-    def test_func(self):
-        obj = self.get_object()
-        return self.request.user == obj.user or self.request.user.is_staff
-
-    def handle_no_permission(self):
-        messages.error(self.request, "У вас нет прав для выполнения этого действия.")
-        return redirect('catalog:home')
+    def get_permission_denied_message(self):
+        return "У вас нет прав для редактирования этого продукта."
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -73,10 +86,6 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         obj = self.get_object()
         return self.request.user == obj.user
-
-    def handle_no_permission(self):
-        messages.error(self.request, "У вас нет прав для выполнения этого действия.")
-        return redirect('catalog:home')
 
 
 class ContactView(View):

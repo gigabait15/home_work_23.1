@@ -8,34 +8,62 @@
 </div>
 {% for product in product_list %}
 <div class="col-4">
-    <div class="card ">
-        <h1 class="card-header text-center">
-            {{product.name}}
-        </h1>
-        <div class="card-body text-center">
-            {% if product.image %}
-            <img src="{{ product.image.url }}" style="max-width: 50%; max-height: 100%;">
-            {% else %}
-            <p>Нет изображения</p>
-            {% endif %}
-        </div>
-        <div class="card-footer">
-            <div class="d-flex justify-content-center  align-items-center">
-                {% if user.is_authenticated %}
-                <div class="btn-group">
-                    <a href="{% url 'catalog:product_detail' product.pk %}"
-                       class="btn btn-sm btn-secondary mr-1">Информация</a>
-                    <a href="{% url 'catalog:product_update' product.pk %}" type="button"
-                       class="btn btn-sm btn-success mr-1">Редактировать</a>
-                    <a href="{% url 'catalog:product_delete' product.pk %}" type="button"
-                       class="btn btn-sm btn-danger">Удалить</a>
-                </div>
-                {% endif %}
+    {% if perms.catalog.can_is_published_product %}
+    {% if not product.is_published %}
+        <form method="post" action="{% url 'catalog:product_publish' product.pk %}">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('Вы уверены, что хотите опубликовать продукт?')">Опубликовать</button>
+        </form>
 
+        <div class="card">
+            <h2>Не опубликовано</h2>
+        </div>
+    {% endif %}
+
+    {% if product.is_published %}
+        <form method="post" action="{% url 'catalog:product_unpublish' product.pk %}">
+            {% csrf_token %}
+            <button type="submit" onclick="return confirm('Вы уверены, что хотите отменить публикацию?')">Отменить публикацию</button>
+        </form>
+    {% endif %}
+
+    {% if product.is_published == True %}
+        <div class="card ">
+            <h1 class="card-header text-center">
+                {{product.name}}
+            </h1>
+            <div class="card-body text-center">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" style="max-width: 50%; max-height: 100%;">
+                {% else %}
+                <p>Нет изображения</p>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-center  align-items-center">
+                    {% if user.is_authenticated %}
+                    <div class="btn-group">
+                        <a href="{% url 'catalog:product_detail' product.pk %}"
+                           class="btn btn-sm btn-secondary mr-1">Информация</a>
+                        <a href="{% url 'catalog:product_update' product.pk %}" type="button"
+                           class="btn btn-sm btn-success mr-1">Редактировать</a>
+                        <a href="{% url 'catalog:product_delete' product.pk %}" type="button"
+                           class="btn btn-sm btn-danger">Удалить</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-footer">
+                {% if perms.catalog.can_change_product_description or perms.catalog.can_change_product_category %}
+                <a href="{% url 'catalog:product_update' product.pk %}" type="button"
+                   class="btn btn-sm btn-success mr-1">Изменить описание/категорию</a>
+                {% endif %}
             </div>
         </div>
-    </div>
+    {% endif %}
+{% endif %}
 </div>
+
 
 {% endfor %}
 {% endblock %}

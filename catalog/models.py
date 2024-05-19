@@ -35,10 +35,16 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+        permissions = [
+            ('can_is_published_product', 'Can is_published product'),
+            ('can_change_product_description', 'Can change product description'),
+            ('can_change_product_category', 'Can change product category'),
+        ]
+
 
 class Version(models.Model):
     name = models.CharField(max_length=100, verbose_name='название версии')
-    number_version = models.IntegerField(default=1, verbose_name='номер версии,')
+    number_version = models.IntegerField(default=1, verbose_name='номер версии')
     current_version_indicator = models.BooleanField(default=True, verbose_name='признак текущей версии')
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='продукт')
@@ -49,3 +55,4 @@ class Version(models.Model):
     class Meta:
         verbose_name = 'версия'
         verbose_name_plural = 'версии'
+
