@@ -1,7 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
-from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -11,6 +9,8 @@ from catalog.models import Product, Version
 
 
 class ProductUnpublishView(View):
+    model = Product
+
     def post(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
         product.is_published = False
@@ -18,6 +18,8 @@ class ProductUnpublishView(View):
         return redirect(reverse('catalog:home'))
 
 class ProductPublishView(View):
+    model = Product
+
     def post(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
         product.is_published = True
